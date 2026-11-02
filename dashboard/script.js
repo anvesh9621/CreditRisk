@@ -62,11 +62,11 @@ async function loadDashboardData() {
     try {
         // Fetch generated JSONs
         const [kpiRes, analyticsRes, modelRes, featRes, batchRes] = await Promise.all([
-            fetch("../outputs/dashboard_data/summary_kpi.json").then(r => r.json()),
-            fetch("../outputs/dashboard_data/customer_analytics.json").then(r => r.json()),
-            fetch("../outputs/dashboard_data/model_performance.json").then(r => r.json()),
-            fetch("../outputs/dashboard_data/feature_importance.json").then(r => r.json()),
-            fetch("../outputs/dashboard_data/batch_prediction_summary.json").then(r => r.json())
+            fetch("./data/summary_kpi.json").then(r => r.json()),
+            fetch("./data/customer_analytics.json").then(r => r.json()),
+            fetch("./data/model_performance.json").then(r => r.json()),
+            fetch("./data/feature_importance.json").then(r => r.json()),
+            fetch("./data/batch_prediction_summary.json").then(r => r.json())
         ]);
 
         renderKPIs(kpiRes);

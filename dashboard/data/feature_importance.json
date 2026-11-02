@@ -1,0 +1,80 @@
+{
+    "top_features": [
+        {
+            "Feature": "BILL_AMT1",
+            "Importance": 0.1842351794975297,
+            "Importance_Percentage": 18.42351794975297
+        },
+        {
+            "Feature": "Cat_Encoded_5",
+            "Importance": 0.09279529256680798,
+            "Importance_Percentage": 9.279529256680798
+        },
+        {
+            "Feature": "Cat_Encoded_2",
+            "Importance": 0.07969543432661681,
+            "Importance_Percentage": 7.969543432661681
+        },
+        {
+            "Feature": "Cat_Encoded_3",
+            "Importance": 0.06585623178988646,
+            "Importance_Percentage": 6.585623178988646
+        },
+        {
+            "Feature": "PAY_5",
+            "Importance": 0.0645050869139159,
+            "Importance_Percentage": 6.45050869139159
+        },
+        {
+            "Feature": "PAY_AMT1",
+            "Importance": 0.04690451624437911,
+            "Importance_Percentage": 4.690451624437911
+        },
+        {
+            "Feature": "CREDIT_UTILIZATION_RATIO",
+            "Importance": 0.03782425157796944,
+            "Importance_Percentage": 3.782425157796944
+        },
+        {
+            "Feature": "MAX_REPAYMENT_DELAY",
+            "Importance": 0.036236479707698624,
+            "Importance_Percentage": 3.6236479707698623
+        },
+        {
+            "Feature": "PAY_6",
+            "Importance": 0.03420256962451752,
+            "Importance_Percentage": 3.4202569624517523
+        },
+        {
+            "Feature": "Cat_Encoded_1",
+            "Importance": 0.03182407764747081,
+            "Importance_Percentage": 3.182407764747081
+        },
+        {
+            "Feature": "TOTAL_BILL_AMT",
+            "Importance": 0.029217339321525836,
+            "Importance_Percentage": 2.9217339321525837
+        },
+        {
+            "Feature": "Cat_Encoded_6",
+            "Importance": 0.025025262067785273,
+            "Importance_Percentage": 2.502526206778527
+        },
+        {
+            "Feature": "MIN_BILL_AMT",
+            "Importance": 0.024924064459479908,
+            "Importance_Percentage": 2.492406445947991
+        },
+        {
+            "Feature": "AVG_BILL_AMT",
+            "Importance": 0.02309806278611868,
+            "Importance_Percentage": 2.309806278611868
+        },
+        {
+            "Feature": "Cat_Encoded_4",
+            "Importance": 0.02212446645271457,
+            "Importance_Percentage": 2.212446645271457
+        }
+    ],
+    "total_features": 41
+}
