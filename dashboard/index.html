@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Card Default Risk Analytics | Apache Spark & PySpark ML</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand-container">
+            <div class="brand-icon">⚡</div>
+            <div>
+                <div class="brand-title">CreditRisk ML</div>
+                <div class="brand-subtitle">PySpark MLlib Analytics</div>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item active" data-section="overview">
+                <span class="nav-icon">📊</span> Overview
+            </li>
+            <li class="nav-item" data-section="customer-analytics">
+                <span class="nav-icon">👥</span> Customer Analytics
+            </li>
+            <li class="nav-item" data-section="model-performance">
+                <span class="nav-icon">📈</span> Model Performance
+            </li>
+            <li class="nav-item" data-section="feature-importance">
+                <span class="nav-icon">🔍</span> Feature Importance
+            </li>
+            <li class="nav-item" data-section="prediction-results">
+                <span class="nav-icon">🎯</span> Prediction Results
+            </li>
+            <li class="nav-item" data-section="batch-results">
+                <span class="nav-icon">📂</span> Batch Prediction
+            </li>
+            <li class="nav-item" data-section="risk-simulator">
+                <span class="nav-icon">🎛️</span> Risk Simulator
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div>Powered by <strong>Apache Spark 4.3</strong></div>
+            <div class="badge-spark">PySpark ML Pipeline</div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+
+        <!-- Top Header Bar -->
+        <header class="header-bar">
+            <div>
+                <h1 class="page-title" id="view-title">Executive Overview</h1>
+                <p class="page-desc" id="view-desc">Predicting Credit Card Default using Apache Spark & PySpark MLlib on UCI Dataset (30,000 records)</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-secondary" onclick="exportDataCSV()">⬇ Export Metrics CSV</button>
+                <a href="../outputs/plots/" target="_blank" class="btn-primary">📁 View Plot Assets</a>
+            </div>
+        </header>
+
+        <!-- SECTION A: OVERVIEW -->
+        <section id="section-overview" class="dashboard-section active-section">
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Total Portfolio</span>
+                        <span class="kpi-icon">📁</span>
+                    </div>
+                    <div class="kpi-value" id="kpi-total-cust">30,000</div>
+                    <div class="kpi-subtext">Verified credit client records</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Non-Default (Class 0)</span>
+                        <span class="kpi-icon text-teal">✓</span>
+                    </div>
+                    <div class="kpi-value text-teal" id="kpi-non-default">23,364</div>
+                    <div class="kpi-subtext">77.88% repayment compliance</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Default (Class 1)</span>
+                        <span class="kpi-icon text-coral">⚠</span>
+                    </div>
+                    <div class="kpi-value text-coral" id="kpi-default">6,636</div>
+                    <div class="kpi-subtext">22.12% delinquent next month</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Class Imbalance</span>
+                        <span class="kpi-icon text-gold">⚖</span>
+                    </div>
+                    <div class="kpi-value text-gold" id="kpi-imbalance">1:3.52</div>
+                    <div class="kpi-subtext">Handled via weighted loss & tuning</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Best Model</span>
+                        <span class="kpi-icon text-blue">🏆</span>
+                    </div>
+                    <div class="kpi-value text-blue" id="kpi-best-model" style="font-size: 20px;">LR (Weighted)</div>
+                    <div class="kpi-subtext" id="kpi-best-recall">61.57% Default Recall</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Best ROC-AUC</span>
+                        <span class="kpi-icon text-teal">🎯</span>
+                    </div>
+                    <div class="kpi-value text-teal" id="kpi-best-auc">0.7538</div>
+                    <div class="kpi-subtext">Binary discrimination power</div>
+                </div>
+            </div>
+
+            <div class="chart-grid-2">
+                <div class="chart-panel">
+                    <div class="chart-panel-header">
+                        <div>
+                            <div class="panel-title">Portfolio Default Distribution</div>
+                            <div class="panel-desc">Class imbalance in historical UCI client base</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-target-dist"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-panel">
+                    <div class="chart-panel-header">
+                        <div>
+                            <div class="panel-title">Default Rate by September Repayment Delay (PAY_0)</div>
+                            <div class="panel-desc">Strongest single predictor of credit delinquency hazard</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-pay0-delays"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION B: CUSTOMER ANALYTICS -->
+        <section id="section-customer-analytics" class="dashboard-section">
+            <div class="chart-grid-2">
+                <div class="chart-panel">
+                    <div class="chart-panel-header">
+                        <div>
+                            <div class="panel-title">Default Rate Across Age Cohorts</div>
+                            <div class="panel-desc">Senior age groups (60+) exhibit higher default rates (27.2%)</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-age-dist"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-panel">
+                    <div class="chart-panel-header">
+                        <div>
+                            <div class="panel-title">Default Rate by Education Level</div>
+                            <div class="panel-desc">University & High School clients show elevated risk vs Graduate School</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-edu-dist"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-grid-2">
+                <div class="chart-panel">
+                    <div class="chart-panel-header">
+                        <div>
+                            <div class="panel-title">Default Rate by Marital Status</div>
+                            <div class="panel-desc">Married clients have slightly higher delinquency rate (23.5%) vs Single (20.9%)</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-marriage-dist"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-panel">
+                    <div class="chart-panel-header">
+                        <div>
+                            <div class="panel-title">Default Rate by Credit Limit Quintile</div>
+                            <div class="panel-desc">Inverse relationship: Higher credit lines correlate with lower defaults</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-limit-dist"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION C: MODEL PERFORMANCE -->
+        <section id="section-model-performance" class="dashboard-section">
+            <div class="table-panel">
+                <div class="chart-panel-header">
+                    <div>
+                        <div class="panel-title">PySpark MLlib Model Comparison Table</div>
+                        <div class="panel-desc">Ranked by Composite Multi-Criteria Validation Metric (Prioritizing Default Recall & ROC-AUC)</div>
+                    </div>
+                </div>
+                <table class="custom-table" id="models-table">
+                    <thead>
+                        <tr>
+                            <th>Model Architecture</th>
+                            <th>Accuracy</th>
+                            <th>Weighted Precision</th>
+                            <th>Default Recall (Class 1)</th>
+                            <th>F1-Score</th>
+                            <th>ROC-AUC</th>
+                            <th>PR-AUC</th>
+                            <th>Training Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="models-table-body">
+                        <!-- Populated dynamically from JSON -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-grid-2">
+                <div class="chart-panel">
+                    <div class="chart-panel-header">
+                        <div>
+                            <div class="panel-title">ROC Curves Comparison</div>
+                            <div class="panel-desc">True Positive Rate vs False Positive Rate across decision thresholds</div>
+                        </div>
+                    </div>
+                    <div class="chart-container-tall">
+                        <canvas id="chart-roc-curves"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-panel">
+                    <div class="chart-panel-header">
+                        <div>
+                            <div class="panel-title">Precision-Recall Curves Comparison</div>
+                            <div class="panel-desc">Trade-off between precision and recall on minority default class</div>
+                        </div>
+                    </div>
+                    <div class="chart-container-tall">
+                        <canvas id="chart-pr-curves"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION D: FEATURE IMPORTANCE -->
+        <section id="section-feature-importance" class="dashboard-section">
+            <div class="chart-panel" style="margin-bottom: 24px;">
+                <div class="chart-panel-header">
+                    <div>
+                        <div class="panel-title">Top 15 Features Driving Default Prediction</div>
+                        <div class="panel-desc">Derived from PySpark Tree Ensembles (Gradient Boosted Tree / Random Forest)</div>
+                    </div>
+                </div>
+                <div class="chart-container-tall">
+                    <canvas id="chart-feature-importance"></canvas>
+                </div>
+            </div>
+
+            <div class="table-panel">
+                <div class="panel-title" style="margin-bottom: 12px;">Feature Interpretation & Domain Rationale</div>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Feature Name</th>
+                            <th>Category</th>
+                            <th>Importance (%)</th>
+                            <th>Financial Business Significance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feature-table-body">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION E: PREDICTION RESULTS -->
+        <section id="section-prediction-results" class="dashboard-section">
+            <div class="filter-bar">
+                <input type="text" id="search-input" class="search-input" placeholder="🔍 Search by credit limit, age..." oninput="filterTable()">
+                <div class="filter-pills">
+                    <span class="filter-pill active" onclick="setRiskFilter('ALL')">All Tiers</span>
+                    <span class="filter-pill" onclick="setRiskFilter('High Risk')">High Risk</span>
+                    <span class="filter-pill" onclick="setRiskFilter('Medium Risk')">Medium Risk</span>
+                    <span class="filter-pill" onclick="setRiskFilter('Low Risk')">Low Risk</span>
+                </div>
+                <button class="btn-primary" onclick="downloadPredictionsCSV()">⬇ Download CSV</button>
+            </div>
+
+            <div class="table-panel">
+                <table class="custom-table" id="predictions-table">
+                    <thead>
+                        <tr>
+                            <th>Credit Limit</th>
+                            <th>Age</th>
+                            <th>Education</th>
+                            <th>Marriage</th>
+                            <th>Sept Delay (PAY_0)</th>
+                            <th>Latest Bill</th>
+                            <th>Latest Payment</th>
+                            <th>Actual Label</th>
+                            <th>Predicted</th>
+                            <th>Default Prob</th>
+                            <th>Risk Tier</th>
+                        </tr>
+                    </thead>
+                    <tbody id="predictions-table-body">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION F: BATCH PREDICTION -->
+        <section id="section-batch-results" class="dashboard-section">
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Batch Processed</div>
+                    <div class="kpi-value" id="batch-total">3,000</div>
+                    <div class="kpi-subtext">PySpark batch inference</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Predicted Defaults</div>
+                    <div class="kpi-value text-coral" id="batch-defaults">319</div>
+                    <div class="kpi-subtext" id="batch-def-pct">31.9% flagged for delinquency</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Low Risk Approvals</div>
+                    <div class="kpi-value text-teal" id="batch-low-risk">93</div>
+                    <div class="kpi-subtext">Instant approval tier</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Conditional Reviews</div>
+                    <div class="kpi-value text-gold" id="batch-med-risk">588</div>
+                    <div class="kpi-subtext">Requires limit calibration</div>
+                </div>
+            </div>
+
+            <div class="chart-panel">
+                <div class="chart-panel-header">
+                    <div>
+                        <div class="panel-title">Batch Risk Distribution Breakdown</div>
+                        <div class="panel-desc">Categorization of batch processed accounts across risk tiers</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chart-batch-distribution"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION G: REAL-TIME RISK SIMULATOR -->
+        <section id="section-risk-simulator" class="dashboard-section">
+            <div class="simulator-panel">
+                <div>
+                    <h3 class="panel-title" style="margin-bottom: 8px;">Applicant Underwriting Parameters</h3>
+                    <p class="panel-desc" style="margin-bottom: 20px;">Adjust client profile parameters to simulate instantaneous default probability and risk tier recommendation.</p>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Credit Limit (NT$)</label>
+                            <input type="number" id="sim-limit" class="form-control" value="80000" step="10000" oninput="runSimulation()">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Applicant Age</label>
+                            <input type="number" id="sim-age" class="form-control" value="34" min="20" max="80" oninput="runSimulation()">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Education Level</label>
+                            <select id="sim-edu" class="form-control" onchange="runSimulation()">
+                                <option value="1">Graduate School</option>
+                                <option value="2" selected>University</option>
+                                <option value="3">High School</option>
+                                <option value="4">Others</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Marital Status</label>
+                            <select id="sim-mar" class="form-control" onchange="runSimulation()">
+                                <option value="1">Married</option>
+                                <option value="2" selected>Single</option>
+                                <option value="3">Others</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">September Repayment (PAY_0)</label>
+                            <select id="sim-pay0" class="form-control" onchange="runSimulation()">
+                                <option value="-1">Paid Duly (-1)</option>
+                                <option value="0" selected>Revolving Credit (0)</option>
+                                <option value="1">Payment Delay 1 Month (1)</option>
+                                <option value="2">Payment Delay 2 Months (2)</option>
+                                <option value="3">Payment Delay 3+ Months (3)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Number of Delayed Months</label>
+                            <input type="number" id="sim-delays" class="form-control" value="0" min="0" max="6" oninput="runSimulation()">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Latest Bill Amount (BILL_AMT1)</label>
+                            <input type="number" id="sim-bill" class="form-control" value="35000" step="5000" oninput="runSimulation()">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Latest Payment Amount (PAY_AMT1)</label>
+                            <input type="number" id="sim-pay" class="form-control" value="2000" step="1000" oninput="runSimulation()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="simulator-result-box">
+                    <span class="kpi-label">Estimated Default Hazard</span>
+                    <div class="hazard-gauge text-gold" id="sim-gauge">26.4%</div>
+                    <div id="sim-tier-badge" class="badge-risk-med" style="font-size: 14px; padding: 6px 16px;">Medium Risk</div>
+
+                    <div class="recommendation-box" id="sim-recommendation">
+                        Conditional: Moderate default probability. Recommend lower credit limit and monitoring.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

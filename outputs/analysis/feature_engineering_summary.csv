@@ -1,0 +1,13 @@
+Feature,Formula,Description
+TOTAL_BILL_AMT,sum(BILL_AMT1..6),Cumulative 6-month billed credit amount.
+AVG_BILL_AMT,mean(BILL_AMT1..6),Average monthly expenditure statement.
+TOTAL_PAY_AMT,sum(PAY_AMT1..6),Cumulative 6-month repayments made.
+AVG_PAY_AMT,mean(PAY_AMT1..6),Average monthly repayment amount.
+MAX_BILL_AMT,max(BILL_AMT1..6),Peak billing statement across observation window.
+MIN_BILL_AMT,min(BILL_AMT1..6),Lowest billing statement across observation window.
+PAY_TO_BILL_RATIO,TOTAL_PAY / (TOTAL_BILL + eps),Proportion of total obligations satisfied by payments (clipped 0-5).
+DELAYED_MONTHS_COUNT,sum(PAY_i > 0 for i in 1..6),Total count of distinct months with repayment delinquency.
+MAX_REPAYMENT_DELAY,max(PAY_0..6),Longest delinquent payment duration observed in months.
+AVG_REPAYMENT_STATUS,mean(PAY_0..6),Overall trend of repayment behaviour across 6 months.
+CREDIT_UTILIZATION_RATIO,BILL_AMT1 / LIMIT_BAL,Current proportion of credit card limit being utilized.
+PAYMENT_CONSISTENCY,min(PAY_AMT) / (max(PAY_AMT) + eps),Ratio indicating regularity of monthly repayment amounts.

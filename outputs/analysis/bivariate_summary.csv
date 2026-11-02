@@ -1,0 +1,9 @@
+Category,Detail
+Age Cohort Highest Default,60+ (Default rate: 27.2%)
+Age Cohort Lowest Default,30-39 (Default rate: 20.3%)
+Education Level Highest Default,University (23.7%) / High School (25.2%)
+Education Level Lowest Default,Graduate School (19.2%)
+Marital Status Highest Default,Married (23.5%)
+Marital Status Lowest Default,Single (20.9%)
+Strongest Positive Predictor,PAY_0 (Correlation: 0.325)
+Strongest Negative Predictor,LIMIT_BAL (Correlation: -0.154)

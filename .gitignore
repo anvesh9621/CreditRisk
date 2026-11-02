@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Spark local warehouse & temporary directories
+spark-warehouse/
+metastore_db/
+derby.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Operating System files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Virtual environments
+venv/
+env/
+.env

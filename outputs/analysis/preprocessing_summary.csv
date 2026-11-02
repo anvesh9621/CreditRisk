@@ -1,0 +1,11 @@
+Step,Action,Rationale
+1. ID Column,Dropped,Arbitrary identifier without predictive signal.
+2. EDUCATION Encoding,"Consolidated 0, 4, 5, 6 into 4 ('Others')","Per official UCI documentation, undocumented codes grouped into category 4."
+3. MARRIAGE Encoding,"Consolidated 0, 3 into 3 ('Others')",Code 0 represents unassigned values; grouped with others.
+4. Categorical Encoding,StringIndexer + OneHotEncoder,Ensures categorical columns are transformed into MLlib-compatible vectors.
+5. Repayment History,Preserved as ordered numeric integers (-2 to 8),Reflects monotonically increasing repayment delay severity.
+6. Feature Engineering,Generated 11 financial metrics,"Captures credit utilization, payment consistency, bill trends, and total delay history."
+7. Feature Assembly,VectorAssembler,Combines one-hot vectors and numeric features into unified feature vector.
+8. Feature Scaling,"StandardScaler (withStd=True, withMean=False)",Standardizes feature scales for distance-based and linear models while preserving sparsity.
+9. Train-Test Split,"80% Train, 20% Test (seed=42)",Maintains target class distribution (~22.1% default) without data leakage.
+10. Imbalance Handling,"Class weighting (w0=0.64, w1=2.26) & Threshold tuning",Counteracts ~3.5:1 imbalance and penalizes false negatives in credit default.

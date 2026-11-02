@@ -1,0 +1,132 @@
+{
+    "target_distribution": [
+        {
+            "label": "No Default",
+            "count": 23364,
+            "percentage": 77.88
+        },
+        {
+            "label": "Default",
+            "count": 6636,
+            "percentage": 22.12
+        }
+    ],
+    "age_groups": [
+        {
+            "cohort": "20-29",
+            "count": 9618,
+            "default_rate": 22.9
+        },
+        {
+            "cohort": "30-39",
+            "count": 11238,
+            "default_rate": 20.3
+        },
+        {
+            "cohort": "40-49",
+            "count": 6464,
+            "default_rate": 23.3
+        },
+        {
+            "cohort": "50-59",
+            "count": 2341,
+            "default_rate": 25.0
+        },
+        {
+            "cohort": "60+",
+            "count": 339,
+            "default_rate": 27.2
+        }
+    ],
+    "education_levels": [
+        {
+            "level": "Graduate School",
+            "count": 10585,
+            "default_rate": 19.2
+        },
+        {
+            "level": "University",
+            "count": 14030,
+            "default_rate": 23.7
+        },
+        {
+            "level": "High School",
+            "count": 4917,
+            "default_rate": 25.2
+        },
+        {
+            "level": "Others/Unknown",
+            "count": 468,
+            "default_rate": 7.1
+        }
+    ],
+    "marital_statuses": [
+        {
+            "status": "Married",
+            "count": 13659,
+            "default_rate": 23.5
+        },
+        {
+            "status": "Single",
+            "count": 15964,
+            "default_rate": 20.9
+        },
+        {
+            "status": "Others",
+            "count": 377,
+            "default_rate": 23.6
+        }
+    ],
+    "credit_limit_quintiles": [
+        {
+            "bracket": "Tier 1 ($10k-$50k)",
+            "default_rate": 28.6
+        },
+        {
+            "bracket": "Tier 2 ($50k-$100k)",
+            "default_rate": 24.2
+        },
+        {
+            "bracket": "Tier 3 ($100k-$180k)",
+            "default_rate": 21.5
+        },
+        {
+            "bracket": "Tier 4 ($180k-$270k)",
+            "default_rate": 18.4
+        },
+        {
+            "bracket": "Tier 5 ($270k-$1M)",
+            "default_rate": 15.3
+        }
+    ],
+    "repayment_delays_pay0": [
+        {
+            "code": "-2 (No Cons)",
+            "default_rate": 13.9
+        },
+        {
+            "code": "-1 (Duly Paid)",
+            "default_rate": 16.8
+        },
+        {
+            "code": "0 (Revolving)",
+            "default_rate": 12.8
+        },
+        {
+            "code": "1 (1 Mo Delay)",
+            "default_rate": 33.9
+        },
+        {
+            "code": "2 (2 Mo Delay)",
+            "default_rate": 69.1
+        },
+        {
+            "code": "3 (3 Mo Delay)",
+            "default_rate": 75.8
+        },
+        {
+            "code": "4+ (4+ Mo Delay)",
+            "default_rate": 72.4
+        }
+    ]
+}

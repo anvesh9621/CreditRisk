@@ -1,0 +1,11 @@
+Metric,Value
+Total Records,30000
+Total Features (inc. ID),25
+Predictor Features,23
+Duplicate Records,0
+Columns with Missing Values,0
+Non-Default Count (Class 0),23364
+Non-Default Percentage,77.88%
+Default Count (Class 1),6636
+Default Percentage,22.12%
+Class Imbalance Ratio,1:3.52
